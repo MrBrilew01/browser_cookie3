@@ -384,21 +384,21 @@ class ChromiumBased:
 
 class Chrome(ChromiumBased):
     """Class for Google Chrome"""
-    def __init__(self, cookie_file=None, domain_name="", key_file=None):
+    def __init__(self, cookie_file=None, domain_name="", key_file=None, profile="Default"):
         args = {
             'linux_cookies':[
-                    '~/.config/google-chrome/Default/Cookies',
-                    '~/.config/google-chrome-beta/Default/Cookies'
+                    f'~/.config/google-chrome/{profile}/Cookies',
+                    f'~/.config/google-chrome-beta/{profile}/Cookies'
                 ],
             'windows_cookies':[
-                    {'env':'APPDATA', 'path':'..\\Local\\Google\\Chrome\\User Data\\Default\\Cookies'},
-                    {'env':'LOCALAPPDATA', 'path':'Google\\Chrome\\User Data\\Default\\Cookies'},
-                    {'env':'APPDATA', 'path':'Google\\Chrome\\User Data\\Default\\Cookies'},
-                    {'env':'APPDATA', 'path':'..\\Local\\Google\\Chrome\\User Data\\Default\\Network\\Cookies'},
-                    {'env':'LOCALAPPDATA', 'path':'Google\\Chrome\\User Data\\Default\\Network\\Cookies'},
-                    {'env':'APPDATA', 'path':'Google\\Chrome\\User Data\\Default\\Network\\Cookies'}
+                    {'env':'APPDATA', 'path':f'..\\Local\\Google\\Chrome\\User Data\\{profile}\\Cookies'},
+                    {'env':'LOCALAPPDATA', 'path':f'Google\\Chrome\\User Data\\{profile}\\Cookies'},
+                    {'env':'APPDATA', 'path':f'Google\\Chrome\\User Data\\{profile}\\Cookies'},
+                    {'env':'APPDATA', 'path':f'..\\Local\\Google\\Chrome\\User Data\\{profile}\\Network\\Cookies'},
+                    {'env':'LOCALAPPDATA', 'path':f'Google\\Chrome\\User Data\\{profile}\\Network\\Cookies'},
+                    {'env':'APPDATA', 'path':f'Google\\Chrome\\User Data\\{profile}\\Network\\Cookies'}
                 ],
-            'osx_cookies': ['~/Library/Application Support/Google/Chrome/Default/Cookies'],
+            'osx_cookies': [f'~/Library/Application Support/Google/Chrome/{profile}/Cookies'],
             'windows_keys': [
                     {'env':'APPDATA', 'path':'..\\Local\\Google\\Chrome\\User Data\\Local State'},
                     {'env':'LOCALAPPDATA', 'path':'Google\\Chrome\\User Data\\Local State'},
@@ -673,11 +673,11 @@ def create_cookie(host, path, secure, expires, name, value, http_only):
                                  {'HTTPOnly': ''} if http_only else {})
 
 
-def chrome(cookie_file=None, domain_name="", key_file=None):
+def chrome(cookie_file=None, domain_name="", key_file=None, profile="Default"):
     """Returns a cookiejar of the cookies used by Chrome. Optionally pass in a
     domain name to only load cookies from the specified domain
     """
-    return Chrome(cookie_file, domain_name, key_file).load()
+    return Chrome(cookie_file, domain_name, key_file, profile).load()
 
 
 def chromium(cookie_file=None, domain_name="", key_file=None):
